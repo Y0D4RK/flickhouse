@@ -26,6 +26,7 @@ class App extends Component {
     let wrapImage;
     let welcomeMessage;
     let startButton;
+    let question;
 
     if(this.state.messageDisplayed) {
       wrapImage =<div className="wrap-image">
@@ -40,7 +41,7 @@ class App extends Component {
     }
 
     if (this.state.gameStarted){
-      wrapImg = <img className="img" src='../../assets/images/action.png' alt="action"/>;
+      wrapImage = <img className="img" src='../../assets/images/action.png' alt="action"/>;
       question = <Question />
     }
 
@@ -49,6 +50,7 @@ class App extends Component {
         { wrapImage }
         { welcomeMessage }
         { startButton }
+        { question }
       </div>
     );
   };
