@@ -38,6 +38,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development",
     "lint": "eslint './src/**/*.js*'",
+    "test": "react-scripts test",
     "starter": "react-scripts start",
     "build": "react-scripts build"
   },

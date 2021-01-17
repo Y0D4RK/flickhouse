@@ -38,6 +38,7 @@ class App extends Component {
       <div className="wrap">
         <div className="wrap-image">
           { wrapImage }
+          { wrapImage }
         </div>
         { welcomeMessage }
         { startButton }
