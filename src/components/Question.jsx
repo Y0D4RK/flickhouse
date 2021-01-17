@@ -47,6 +47,14 @@ class Question extends Component {
       });
   }
 
+  getUserAnswer = (answer, actorId) => {
+    this.setState({
+      userAnswer: answer
+    });
+    console.log(actorId);
+    console.log(answer);
+  };
+
   render() {
     const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter } = this.state;
 
@@ -65,16 +73,16 @@ class Question extends Component {
 
     if (this.state.dataLoaded) {
       questionRemain = <div className="question-remaining"> { questionCounter }/{ countActors } </div>;
-      moviePoster = <img className="movie-poster" data-id={movies[randomKeyMovie]['id']} src={ 'https://image.tmdb.org/t/p/w200/'+movies[randomKeyMovie]['poster_path'] } alt="movie poster" />;
-      actorPhoto = <img className="actor-photo" data-id={actors[randomKeyActor]['id']} src={ 'https://image.tmdb.org/t/p/w200/'+actors[randomKeyActor]['profile_path'] } alt="actor photo" />;
+      moviePoster = <img className="movie-poster" src={ 'https://image.tmdb.org/t/p/w200/'+movies[randomKeyMovie]['poster_path'] } alt="movie poster" />;
+      actorPhoto = <img className="actor-photo" src={ 'https://image.tmdb.org/t/p/w200/'+actors[randomKeyActor]['profile_path'] } alt="actor photo" />;
 
       question = <p>Did <span className="random-item">{ actors[randomKeyActor]['name'] }</span> star in <span className="random-item">{ movies[randomKeyMovie]['name'] || movies[randomKeyMovie]['title']}</span>&nbsp;?</p>;
-      yesButton = <button className="button-yes" data-option='yes' data-actor={ actors[randomKeyActor]['id']} data-movie={ movies[randomKeyMovie]['id'] } onClick={this.getUserAnswer}>Yes</button>;
-      noButton = <button className="button-no" data-option='no' data-actor={ actors[randomKeyActor]['id']} data-movie={ movies[randomKeyMovie]['id'] } onClick={this.getUserAnswer}>No</button>;
+      yesButton = <button className="button-yes" onClick={()=>this.getUserAnswer('yes', actors[randomKeyActor]['id'] )}>Yes</button>;
+      noButton = <button className="button-no" onClick={()=>this.getUserAnswer('no', actors[randomKeyActor]['id'] )}>No</button>;
     }
 
     if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
-      message = <h6>Good anwser { this.state.score } !</h6>;
+      message = <h6>Good anwsers : { this.state.score } !</h6>;
       nextButton = <button className="button-next" onClick={this.handleClick}> Next </button> }
     else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
       message = <h6>Bad anwser !</h6>;
