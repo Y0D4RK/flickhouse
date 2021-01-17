@@ -1,0 +1,45 @@
+/*-------------*/
+/* GLOBAL SCSS */
+/*-------------*/
+h1 {
+    color: #e1b12c;
+    text-align: center;
+    font-size: 3em;
+    font-weight: bolder;
+    margin: .8em 0;
+    .logo {
+        color: #fdf7ed;
+        background-color: #e1b12c;
+        box-shadow: .1em .1em #fbc531;
+        padding: .2em .5em;
+        border-radius: .1em;
+    }
+}
+h4 {
+  color: #fdf7ed;
+  text-align: center;
+  font-size: 2em;
+  margin: 1em 0;
+  font-style: italic;
+}
+.button-start {
+  display: block;
+  margin: 2em auto;
+  background-color: #44bd32;
+  font-size: 2em;
+  text-align: center;
+  padding: 1em 2em;
+  border-radius: .1em;
+  font-weight: bolder;
+  box-shadow: .1em .1em 0 #3c852d;
+  text-transform: uppercase;
+  cursor: pointer;
+  &:hover {
+    background-color: #3c852d;
+    transition: linear .2s;
+  }
+  i{
+    font-style: normal;
+    margin-left: .2em;
+  }
+}

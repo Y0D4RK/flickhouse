@@ -1,0 +1,83 @@
+/*-------------*/
+/* GLOBAL SCSS */
+/*-------------*/
+
+/***********/
+/* GENERAL */
+/***********/
+html, body{
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #fdf7ed;
+  padding: 3em;
+}
+#root {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+}
+.wrap{
+  width: 1080px;
+  background-color: #487eb0;
+  border-radius: 1em;
+  margin: 0 auto;
+  padding: 2em;
+  box-shadow: 1em 1em 0 #8e9da5;
+  background-size: cover;
+}
+.wrap-image {
+  width: 100%;
+  text-align: center;
+  margin: 2em 0;
+  .img {
+    width: 15%;
+    height: auto;
+    margin-bottom: 1.4em;
+  }
+}
+/***********/
+/* BUTTONS */
+/***********/
+button{
+  border-radius: .1em;
+  border: none;
+  cursor: pointer;
+  transition: linear .2s;
+  color: #fdf7ed;
+  &:hover{
+    transition: linear .2s;
+  }
+  &:focus{
+    outline: none;
+    border: none;
+  }
+}
+.button-yes, .button-no{
+  color: #fdf7ed;
+  font-weight: bold;
+  margin: .4em;
+  padding: .4em;
+  border-radius: .1em;
+}
+.button-no {
+  background-color: #00a8ff;
+  box-shadow: .1em .1em #0097e6;
+  &:hover {
+    transition: linear .2s;
+    background-color: #0097e6;
+  }
+}
+.button-yes {
+  background-color: #e84118;
+  box-shadow: .1em .1em #c23616;
+  &:hover {
+    transition: linear .2s;
+    box-shadow: .1em .1em #e84118;
+  }
+}

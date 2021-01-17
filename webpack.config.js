@@ -9,7 +9,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: '!!html-loader!templates/index.html'
+      template: '!!html-loader!public/index.html'
     }),
     new Dotenv()
   ],
@@ -18,7 +18,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(s[ac]ss|css)$/,
+        test: /\.(s[ac]ss|css|png)$/,
         exclude: /node_modules/,
         use: [{
           loader: 'style-loader'
