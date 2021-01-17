@@ -28,10 +28,9 @@ class Question extends Component {
       })
       .then((data) => {
         let actors = data.results;
-        let movies = actors.flatMap(result => result.known_for);
+        let movies = actors.flatMap( result => result.known_for);
         for(let i=0; i < movies.length; i++){
-          if(movies[i].media_type === 'tv' || movies[i].media_type === 'Tv'){
-            console.log(movies[i].media_type);
+          if(movies[i].media_type === 'tv'){
             movies.splice(i, 1);
           }
         }
@@ -84,6 +83,19 @@ class Question extends Component {
       });
   };
 
+
+  handleNextQuestion = () => {
+    const { countActors, countMovies, questionCounter } = this.state;
+    if (questionCounter < countActors){
+      this.setState({
+        randomKeyActor: Math.floor(Math.random() * countActors),
+        randomKeyMovie: Math.floor(Math.random() * countMovies),
+        correctAnswer: null,
+        questionCounter: questionCounter + 1
+      });
+    }
+  };
+
   render() {
     const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter } = this.state;
 
@@ -113,7 +125,7 @@ class Question extends Component {
 
     if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
       message = <h6>Good anwsers, your score is : { 'x / '+this.state.countActors } !</h6>;
-      nextButton = <button className="button-next" onClick={this.handleClick}> Next </button> }
+      nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button> }
     else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
       message = <h6>Bad anwser !</h6>;
     }
