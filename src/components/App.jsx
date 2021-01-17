@@ -41,7 +41,6 @@ class App extends Component {
     }
 
     if (this.state.gameStarted){
-      wrapImage = <img className="img" src='../../assets/images/action.png' alt="action"/>;
       question = <Question />
     }
 

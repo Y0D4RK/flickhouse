@@ -11,15 +11,24 @@ html, body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-shadow:
+          -1px -1px 0 #696969,
+          1px -1px 0 #696969,
+          -1px 1px 0 #696969,
+          1px 1px 0 #696969;
 }
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #fdf7ed;
+  min-height: 100vh;
   padding: 3em;
 }
 #root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  margin: 0 auto;
+  height: 100%;
   padding: 0;
 }
 .wrap{
@@ -29,7 +38,6 @@ body {
   margin: 0 auto;
   padding: 2em;
   box-shadow: 1em 1em 0 #8e9da5;
-  background-size: cover;
 }
 .wrap-image {
   width: 100%;
