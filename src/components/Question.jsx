@@ -13,7 +13,7 @@ class Question extends Component {
       countMovies: 0,
       randomKeyActor: null,
       randomKeyMovie: null,
-      score: 0
+      userScore: 0
     };
   }
 
@@ -30,7 +30,8 @@ class Question extends Component {
         let actors = data.results;
         let movies = actors.flatMap(result => result.known_for);
         for(let i=0; i < movies.length; i++){
-          if(movies[i].media_type === 'tv'){
+          if(movies[i].media_type === 'tv' || movies[i].media_type === 'Tv'){
+            console.log(movies[i].media_type);
             movies.splice(i, 1);
           }
         }
@@ -51,8 +52,36 @@ class Question extends Component {
     this.setState({
       userAnswer: answer
     });
-    console.log(actorId);
-    console.log(answer);
+    // console.log(actorId);
+    // console.log(answer);
+    this.getCorrectAnswer(actorId);
+  };
+
+  getCorrectAnswer = async (movieId, actorId) => {
+    await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
+      .then((response) => {
+        if (!response.ok) {
+          const message = `An error ${response.status} occured !`;
+          throw new Error(message);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if(data){
+          if (data.cast.some(credit => credit.id === actorId)) {
+            this.setState(()=>({
+              correctAnswer: 'yes'
+            }));
+          } else {
+            this.setState({
+              correctAnswer: 'no',
+            });
+          }
+        }
+      })
+      .catch(function(error) {
+        console.log('Issue detected with that movie id. ' + error.message);
+      });
   };
 
   render() {
@@ -72,17 +101,18 @@ class Question extends Component {
     let nextButton;
 
     if (this.state.dataLoaded) {
-      questionRemain = <div className="question-remaining"> { questionCounter }/{ countActors } </div>;
-      moviePoster = <img className="movie-poster" src={ 'https://image.tmdb.org/t/p/w200/'+movies[randomKeyMovie]['poster_path'] } alt="movie poster" />;
-      actorPhoto = <img className="actor-photo" src={ 'https://image.tmdb.org/t/p/w200/'+actors[randomKeyActor]['profile_path'] } alt="actor photo" />;
+      questionRemain = <div className="question-remaining"> { questionCounter+' / '+countActors } </div>;
+      moviePoster = <img className="movie-poster" src={ 'https://image.tmdb.org/t/p/w200'+movies[randomKeyMovie]['poster_path'] } alt={ movies[randomKeyMovie]['name'] } />;
+      actorPhoto = <img className="actor-photo" src={ 'https://image.tmdb.org/t/p/w200'+actors[randomKeyActor]['profile_path'] } alt={ actors[randomKeyActor]['name'] } />;
 
       question = <p>Did <span className="random-item">{ actors[randomKeyActor]['name'] }</span> star in <span className="random-item">{ movies[randomKeyMovie]['name'] || movies[randomKeyMovie]['title']}</span>&nbsp;?</p>;
+
       yesButton = <button className="button-yes" onClick={()=>this.getUserAnswer('yes', actors[randomKeyActor]['id'] )}>Yes</button>;
       noButton = <button className="button-no" onClick={()=>this.getUserAnswer('no', actors[randomKeyActor]['id'] )}>No</button>;
     }
 
     if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
-      message = <h6>Good anwsers : { this.state.score } !</h6>;
+      message = <h6>Good anwsers, your score is : { 'x / '+this.state.countActors } !</h6>;
       nextButton = <button className="button-next" onClick={this.handleClick}> Next </button> }
     else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
       message = <h6>Bad anwser !</h6>;
@@ -91,7 +121,7 @@ class Question extends Component {
     return (
       <div className="wrap-question">
         { questionRemain }
-        <div className="question-profil">
+        <div className="question-image">
           { actorPhoto }
           { moviePoster }
         </div>
