@@ -124,10 +124,10 @@ class Question extends Component {
     }
 
     if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
-      message = <h6>Good anwsers, your score is : { 'x / '+this.state.countActors } !</h6>;
+      message = <h6>Good answer, your score is : { 'x / '+this.state.countActors } !</h6>;
       nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button> }
     else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
-      message = <h6>Bad anwser !</h6>;
+      message = <h6>Bad answer !</h6>;
     }
 
     return (
