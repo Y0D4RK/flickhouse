@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import WelcomeMessage from "./WelcomeMessage";
 import './App.scss';
+import Question from './Question';
+import './Question.scss';
 
 class App extends Component {
   constructor(props) {
@@ -26,7 +28,10 @@ class App extends Component {
     let startButton;
 
     if(this.state.messageDisplayed) {
-      wrapImage = <img className="img" src="../../assets/images/popcorn.png" alt="popcorn" />;
+      wrapImage =<div className="wrap-image">
+                   <img className="img" src="../../assets/images/popcorn.png" alt="popcorn" />
+                   <img className="img" src="../../assets/images/ticket.png" alt="ticket" />
+                 </div>;
       welcomeMessage = <WelcomeMessage />
     }
 
@@ -34,12 +39,14 @@ class App extends Component {
       startButton = <button className="button-start" onClick={this.handleStartGame}>Play<i className="icon">&#10148;</i></button>;
     }
 
+    if (this.state.gameStarted){
+      wrapImg = <img className="img" src='../../assets/images/action.png' alt="action"/>;
+      question = <Question />
+    }
+
     return (
       <div className="wrap">
-        <div className="wrap-image">
-          { wrapImage }
-          { wrapImage }
-        </div>
+        { wrapImage }
         { welcomeMessage }
         { startButton }
       </div>
