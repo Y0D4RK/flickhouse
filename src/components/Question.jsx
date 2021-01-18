@@ -70,7 +70,7 @@ class Question extends Component {
             }));
           } else {
             this.setState({
-              correctAnswer: 'no',
+              correctAnswer: 'no'
             });
           }
         }
