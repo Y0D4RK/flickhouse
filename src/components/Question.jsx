@@ -139,7 +139,7 @@ class Question extends Component {
         nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button>
       }
     }else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null && this.state.userCountMistake < 3) {
-      message = <h6>Bad answer !</h6>;
+      message = <h6>Bad answer {this.state.userCountMistake+' / 3'} !</h6>;
       nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button>
     }else if (3 <= this.state.userCountMistake){
       message = <GameOver score={userScore}/>;
