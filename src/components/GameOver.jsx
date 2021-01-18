@@ -5,7 +5,7 @@ class GameOver extends Component {
     return (
       <div className="wrap-gameover">
         <h6>GAME OVER !</h6>
-        <button> SHARE </button>
+        <button className="button-share"> SHARE </button>
       </div>
     );
   }

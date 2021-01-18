@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import GameOver from "./GameOver";
+import './GameOver.scss';
 
 class Question extends Component {
   constructor(props) {
@@ -9,8 +11,6 @@ class Question extends Component {
       dataLoaded: false,
       correctAnswer: null,
       userAnswer: null,
-      countActors: 0,
-      countMovies: 0,
       randomKeyActor: null,
       randomKeyMovie: null
     };
@@ -20,7 +20,7 @@ class Question extends Component {
     fetch(`https://api.themoviedb.org/3/person/popular?api_key=${process.env.API_TMBD_KEY}&language=en-US&page=1`)
       .then(response => {
         if (!response.ok) {
-          const message = `An error has occured: ${response.status}`;
+          const message = `An error has occured : error ${response.status} !`;
           throw new Error(message);
         }
         return response.json();
@@ -41,7 +41,9 @@ class Question extends Component {
           countMovies: movies.length,
           randomKeyActor: Math.floor(Math.random()* actors.length ),
           randomKeyMovie: Math.floor( Math.random()* movies.length ),
-          questionCounter : 1
+          questionCounter : 1,
+          userScore: 0,
+          userCountMistake: 0
         });
       });
   }
@@ -54,10 +56,12 @@ class Question extends Component {
   };
 
   getCorrectAnswer = async (movieId, actorId) => {
+    const{ userCountMistake, userScore } = this.state;
+
     await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${process.env.API_TMBD_KEY}`)
       .then((response) => {
         if (!response.ok) {
-          const message = `An error ${response.status} occured !`;
+          const message = `An error has occured: error ${response.status} !`;
           throw new Error(message);
         }
         return response.json();
@@ -65,19 +69,26 @@ class Question extends Component {
       .then((data) => {
         if(data){
           if (data.cast.some(credit => credit.id === actorId)) {
-            this.setState(()=>({
+            this.setState({
               correctAnswer: 'yes'
-            }));
+            });
           } else {
             this.setState({
-              correctAnswer: 'no'
+              correctAnswer: 'no',
             });
           }
         }
-      })
-      .catch(function(error) {
-        console.log('Issue detected with that movie id. ' + error.message);
       });
+
+      if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
+        this.setState({
+          userScore : userScore+1
+        });
+      }else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
+        this.setState({
+          userCountMistake: userCountMistake+1
+        })
+      }
   };
 
 
@@ -94,7 +105,7 @@ class Question extends Component {
   };
 
   render() {
-    const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter } = this.state;
+    const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter, userScore } = this.state;
 
     let moviePoster;
     let actorPhoto;
@@ -116,21 +127,28 @@ class Question extends Component {
 
       question = <p>Did <span className="random-item">{ actors[randomKeyActor]['name'] }</span> star in <span className="random-item">{ movies[randomKeyMovie]['name'] || movies[randomKeyMovie]['title']}</span>&nbsp;?</p>;
 
-      yesButton = <button className="button-yes" onClick={()=>this.getUserAnswer('yes', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>Yes</button>;
-      noButton = <button className="button-no" onClick={()=>this.getUserAnswer('no', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>No</button>;
+      if(this.state.correctAnswer === null){
+        yesButton = <button className="button-yes" onClick={()=>this.getUserAnswer('yes', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>Yes</button>;
+        noButton = <button className="button-no" onClick={()=>this.getUserAnswer('no', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>No</button>;
+      }
     }
 
     if (this.state.userAnswer === this.state.correctAnswer && this.state.correctAnswer !== null){
-      message = <h6>Good answer, your score is : { 'x / '+this.state.countActors } !</h6>;
-      nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button> }
-    else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null) {
+      message = <h6>Good answer, your score is : { userScore+' / '+this.state.countActors } !</h6>;
+      if( questionCounter < 20){
+        nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button>
+      }
+    }else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null && this.state.userCountMistake < 3) {
       message = <h6>Bad answer !</h6>;
+      nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button>
+    }else if (3 <= this.state.userCountMistake){
+      message = <GameOver score={userScore}/>;
     }
 
     return (
       <div className="wrap-question">
         { questionRemain }
-        <div className="question-image">
+        <div className="wrap-question-image">
           { actorPhoto }
           { moviePoster }
         </div>

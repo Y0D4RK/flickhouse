@@ -1,0 +1,25 @@
+/*---------------*/
+/* GAMEOVER SCSS */
+/*---------------*/
+.button-share{
+  display: block;
+  margin: .4em auto;
+  background-color: #9c88ff;
+  font-size: 1.4em;
+  text-align: center;
+  padding: .8em 2em;
+  border-radius: .1em;
+  font-weight: bolder;
+  box-shadow: .1em .1em 0 #8c7ae6;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: auto!important;
+  &:hover {
+    background-color: #8c7ae6;
+    transition: linear .2s;
+  }
+  i{
+    font-style: normal;
+    margin-left: .2em;
+  }
+}
