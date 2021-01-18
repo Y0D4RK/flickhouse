@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GameOver from "./GameOver";
 import './GameOver.scss';
+import Countdown from 'react-countdown';
 
 class Question extends Component {
   constructor(props) {
@@ -91,7 +92,6 @@ class Question extends Component {
       }
   };
 
-
   handleNextQuestion = () => {
     const { countActors, countMovies, questionCounter } = this.state;
     if (questionCounter < countActors){
@@ -104,8 +104,20 @@ class Question extends Component {
     }
   };
 
+
+
   render() {
     const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter, userScore } = this.state;
+
+    const Completionist = () => <GameOver score={userScore}/>;
+
+    const renderer = ({ hours, minutes, seconds, completed }) => {
+      if (completed) {
+        return <Completionist />;
+      } else {
+        return <span className="countdown">{hours}:{minutes}:{seconds}</span>;
+      }
+    };
 
     let moviePoster;
     let actorPhoto;
@@ -148,6 +160,7 @@ class Question extends Component {
     return (
       <div className="wrap-question">
         { questionRemain }
+        <Countdown date={Date.now() + 30000} renderer={renderer} />
         <div className="wrap-question-image">
           { actorPhoto }
           { moviePoster }
