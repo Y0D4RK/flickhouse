@@ -96,3 +96,76 @@ button{
     background-color: #0097e6;
   }
 }
+
+
+@media screen and (max-width: 767px) {
+  body{
+    background-color: #487eb0;
+    margin: 1em;
+  }
+  .wrap{
+    padding: 0;
+    box-shadow: none;
+  }
+  .wrap-image{
+    margin: 0 auto;
+    img{
+      width: 60%;
+      margin: 0 auto;
+    }
+  }
+  .title{
+    padding: 0 1em;
+    line-height: 1.8;
+    h1{
+      font-size: 2em;
+      margin-top: .2em;
+    }
+    h4{
+      font-size: 1.4em;
+    }
+  }
+  button.button-start{
+    margin: .8em auto;
+  }
+  .button-yes, .button-no{
+    margin: .2em;
+  }
+  .question p{
+    line-height: 2;
+    .random-item{
+      overflow-wrap: normal;
+      white-space: pre-wrap;
+    }
+  }
+}
+@media (min-width: 768px) and (max-width: 991px){
+  .title{
+    padding: 0 1em;
+    line-height: 1.8;
+    h1{
+      font-size: 2em;
+      margin-top: .2em;
+    }
+    h4{
+      font-size: 1.4em;
+    }
+  }
+  .wrap-image{
+    margin: 0 auto;
+    .img{
+      width: 30%;
+      margin: 0 auto;
+    }
+  }
+  .question p{
+    line-height: 1.8;
+    .random-item{
+      overflow-wrap: normal;
+      white-space: pre-wrap;
+    }
+  }
+}
+@media (min-width: 991px) and (max-width: 1199px){
+
+}
