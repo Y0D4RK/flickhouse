@@ -6,6 +6,7 @@ import Countdown from 'react-countdown';
 class Question extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       actors: [],
       movies: [],
@@ -17,7 +18,7 @@ class Question extends Component {
     };
   }
 
-  componentDidMount() {
+  componentWillMount() {
     fetch(`https://api.themoviedb.org/3/person/popular?api_key=${process.env.API_TMBD_KEY}&language=en-US&page=1`)
       .then(response => {
         if (!response.ok) {
@@ -104,16 +105,12 @@ class Question extends Component {
     }
   };
 
-
-
   render() {
     const { actors, movies, countActors, randomKeyActor, randomKeyMovie, questionCounter, userScore } = this.state;
 
-    const Completionist = () => <GameOver score={userScore}/>;
-
     const renderer = ({ hours, minutes, seconds, completed }) => {
       if (completed) {
-        return <Completionist />;
+        return <GameOver score={ this.state.userScore } />;
       } else {
         return <span className="countdown">{hours}:{minutes}:{seconds}</span>;
       }
@@ -123,6 +120,8 @@ class Question extends Component {
     let actorPhoto;
 
     let question;
+
+    let countDown;
     let yesButton;
     let noButton;
 
@@ -139,7 +138,8 @@ class Question extends Component {
 
       question = <p>Did <span className="random-item">{ actors[randomKeyActor]['name'] }</span> star in <span className="random-item">{ movies[randomKeyMovie]['name'] || movies[randomKeyMovie]['title']}</span>&nbsp;?</p>;
 
-      if(this.state.correctAnswer === null){
+      if(this.state.correctAnswer === null && this.state.buttonDisplay !== false){
+        countDown = <Countdown date={Date.now() + 40000} renderer={renderer} />;
         yesButton = <button className="button-yes" onClick={()=>this.getUserAnswer('yes', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>Yes</button>;
         noButton = <button className="button-no" onClick={()=>this.getUserAnswer('no', actors[randomKeyActor]['id'], movies[randomKeyMovie]['id'] )}>No</button>;
       }
@@ -153,14 +153,13 @@ class Question extends Component {
     }else if (this.state.userAnswer !== this.state.correctAnswer && this.state.correctAnswer !== null && this.state.userCountMistake < 3) {
       message = <h6>Bad answer {this.state.userCountMistake+' / 3'} !</h6>;
       nextButton = <button className="button-next" onClick={this.handleNextQuestion}> Next </button>
-    }else if (3 <= this.state.userCountMistake){
-      message = <GameOver score={userScore}/>;
+    }else if (3 <= this.state.userCountMistake ){
+      message = <GameOver score={userScore} />;
     }
 
     return (
       <div className="wrap-question">
         { questionRemain }
-        <Countdown date={Date.now() + 30000} renderer={renderer} />
         <div className="wrap-question-image">
           { actorPhoto }
           { moviePoster }
@@ -169,6 +168,7 @@ class Question extends Component {
           { question }
           { yesButton }
           { noButton }
+          { countDown }
           { message }
           { nextButton }
         </div>

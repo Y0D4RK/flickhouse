@@ -8,4 +8,3 @@ import '../assets/scss/style.scss';
 
 const root = document.getElementById('root');
 ReactDOM.render(<App />, root);
-
